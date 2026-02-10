@@ -1,0 +1,2 @@
+ALTER TABLE shows
+ADD COLUMN IF NOT EXISTS image_public_id TEXT;

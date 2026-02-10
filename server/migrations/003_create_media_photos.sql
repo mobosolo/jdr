@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS media_photos (
+  id SERIAL PRIMARY KEY,
+  url TEXT NOT NULL,
+  public_id TEXT NOT NULL,
+  title TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
