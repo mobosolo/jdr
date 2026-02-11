@@ -130,7 +130,7 @@ export function Contact() {
                     style={{
                       fontFamily: 'var(--font-sans)',
                       color: 'var(--deep-charcoal)',
-                      fontWeight: 500,
+                      fontWeight: 600,
                     }}
                   >
                     Nom complet
@@ -144,7 +144,7 @@ export function Contact() {
                     className={`w-full px-4 py-3 rounded-md border-2 transition-all focus:outline-none ${
                       errors.name
                         ? 'border-destructive focus:border-destructive'
-                        : 'border-[var(--border)] focus:border-[var(--gold)]'
+                        : 'border-[var(--border)] focus:border-[var(--blue-primary)]'
                     }`}
                     style={{ fontFamily: 'var(--font-sans)' }}
                     placeholder="Votre nom"
@@ -163,7 +163,7 @@ export function Contact() {
                     style={{
                       fontFamily: 'var(--font-sans)',
                       color: 'var(--deep-charcoal)',
-                      fontWeight: 500,
+                      fontWeight: 600,
                     }}
                   >
                     Email
@@ -177,7 +177,7 @@ export function Contact() {
                     className={`w-full px-4 py-3 rounded-md border-2 transition-all focus:outline-none ${
                       errors.email
                         ? 'border-destructive focus:border-destructive'
-                        : 'border-[var(--border)] focus:border-[var(--gold)]'
+                        : 'border-[var(--border)] focus:border-[var(--blue-primary)]'
                     }`}
                     style={{ fontFamily: 'var(--font-sans)' }}
                     placeholder="votre@email.com"
@@ -196,7 +196,7 @@ export function Contact() {
                     style={{
                       fontFamily: 'var(--font-sans)',
                       color: 'var(--deep-charcoal)',
-                      fontWeight: 500,
+                      fontWeight: 600,
                     }}
                   >
                     Message
@@ -210,7 +210,7 @@ export function Contact() {
                     className={`w-full px-4 py-3 rounded-md border-2 transition-all focus:outline-none resize-none ${
                       errors.message
                         ? 'border-destructive focus:border-destructive'
-                        : 'border-[var(--border)] focus:border-[var(--gold)]'
+                        : 'border-[var(--border)] focus:border-[var(--blue-primary)]'
                     }`}
                     style={{ fontFamily: 'var(--font-sans)' }}
                     placeholder="Votre message..."
@@ -227,10 +227,20 @@ export function Contact() {
                   disabled={isSubmitted || isSubmitting}
                   className="w-full py-4 rounded-md transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
                   style={{
-                    backgroundColor: 'var(--gold)',
-                    color: 'var(--deep-charcoal)',
+                    backgroundColor: 'var(--blue-primary)',
+                    color: 'var(--white)',
                     fontFamily: 'var(--font-sans)',
-                    fontWeight: 500,
+                    fontWeight: 600,
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!isSubmitted && !isSubmitting) {
+                      e.currentTarget.style.backgroundColor = 'var(--blue-dark)';
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!isSubmitted && !isSubmitting) {
+                      e.currentTarget.style.backgroundColor = 'var(--blue-primary)';
+                    }
                   }}
                 >
                   {isSubmitted ? (
@@ -269,8 +279,8 @@ export function Contact() {
 
                 <div className="space-y-6">
                   <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-[var(--gold)]/10 flex items-center justify-center">
-                      <MapPin className="w-6 h-6" style={{ color: 'var(--gold)' }} />
+                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-[var(--blue-primary)]/10 flex items-center justify-center">
+                      <MapPin className="w-6 h-6" style={{ color: 'var(--blue-primary)' }} />
                     </div>
                     <div>
                       <h3
@@ -278,7 +288,7 @@ export function Contact() {
                         style={{
                           fontFamily: 'var(--font-sans)',
                           color: 'var(--deep-charcoal)',
-                          fontWeight: 500,
+                          fontWeight: 600,
                         }}
                       >
                         Adresse
@@ -291,8 +301,8 @@ export function Contact() {
                   </div>
 
                   <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-[var(--gold)]/10 flex items-center justify-center">
-                      <Phone className="w-6 h-6" style={{ color: 'var(--gold)' }} />
+                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-[var(--blue-primary)]/10 flex items-center justify-center">
+                      <Phone className="w-6 h-6" style={{ color: 'var(--blue-primary)' }} />
                     </div>
                     <div>
                       <h3
@@ -300,7 +310,7 @@ export function Contact() {
                         style={{
                           fontFamily: 'var(--font-sans)',
                           color: 'var(--deep-charcoal)',
-                          fontWeight: 500,
+                          fontWeight: 600,
                         }}
                       >
                         Telephone
@@ -321,7 +331,7 @@ export function Contact() {
                         style={{
                           fontFamily: 'var(--font-sans)',
                           color: 'var(--deep-charcoal)',
-                          fontWeight: 500,
+                          fontWeight: 600,
                         }}
                       >
                         Email
@@ -339,7 +349,7 @@ export function Contact() {
                     style={{
                       fontFamily: 'var(--font-sans)',
                       color: 'var(--deep-charcoal)',
-                      fontWeight: 500,
+                      fontWeight: 600,
                     }}
                   >
                     Horaires d'ouverture

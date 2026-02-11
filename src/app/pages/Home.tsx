@@ -40,7 +40,7 @@ export function Home() {
       subtitle: "Des performances qui touchent l'ame",
     },
     {
-      image: 'https://images.unsplash.com/photo-1713033766707-2fac55b1a6c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxvcGVyYSUyMHRoZWF0ZXIlMjBkcmFtYXRpYyUyMHBlcmZvcm1hbmNlfGVufDF8fHx8MTc3MDMxNzg4OXww&ixlib=rb-4.1.0&q=80&w=1080',
+      image: 'https://images.unsplash.com/photo-1713033766707-2fac55b1a6c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxvcGVyYSUyMHRoZWF0ZXIlMjBkcmFtYXRpYyUyMHBlcmZvcm1hbmNlfGVufDF8fHx8MTc3MDMxNzg4OXww&ixlib=rb-4.1.0&q=80&w=1080',
       title: 'Theatre Contemporain',
       subtitle: 'Une vision moderne des arts de la scene',
     },
@@ -117,7 +117,7 @@ export function Home() {
                       to="/spectacles"
                       className="inline-flex items-center px-8 py-4 rounded-md transition-all duration-300 hover:scale-105 group"
                       style={{
-                        backgroundColor: 'var(--gold)',
+                        backgroundColor: 'var(--yellow-primary)',
                         color: 'var(--deep-charcoal)',
                         fontFamily: 'var(--font-sans)',
                         fontWeight: 500,
@@ -146,7 +146,7 @@ export function Home() {
             >
               Actualites
             </h2>
-            <div className="w-24 h-1 bg-[var(--gold)] mx-auto" />
+            <div className="w-24 h-1 mx-auto" style={{ backgroundColor: 'var(--blue-primary)' }} />
           </div>
 
           {isLoadingNews && (
@@ -185,14 +185,14 @@ export function Home() {
                         </span>
                       </div>
                     )}
-                    <div className="absolute top-4 left-4 flex items-center space-x-2 bg-[var(--gold)] px-3 py-1.5 rounded-md">
+                    <div className="absolute top-4 left-4 flex items-center space-x-2 px-3 py-1.5 rounded-md" style={{ backgroundColor: 'var(--yellow-primary)' }}>
                       <Calendar className="w-4 h-4" style={{ color: 'var(--deep-charcoal)' }} />
                       <span
                         className="text-sm"
                         style={{
                           fontFamily: 'var(--font-sans)',
                           color: 'var(--deep-charcoal)',
-                          fontWeight: 500,
+                          fontWeight: 600,
                         }}
                       >
                         {item.date}
@@ -201,7 +201,7 @@ export function Home() {
                   </div>
                   <div className="p-6">
                     <h3
-                      className="text-2xl mb-3 group-hover:text-[var(--gold)] transition-colors"
+                      className="text-2xl mb-3 transition-colors"
                       style={{
                         fontFamily: 'var(--font-serif)',
                         color: 'var(--deep-charcoal)',
@@ -217,14 +217,15 @@ export function Home() {
                       ? `${item.excerpt.slice(0, MAX_EXCERPT_LENGTH).trim()}...`
                       : item.excerpt}
                     </p>
-                    <Link
-                      to={`/actualites/${item.id}`}
-                      className="inline-flex items-center text-[var(--gold)] hover:text-[var(--gold-dark)] transition-colors group/link"
-                      style={{ fontFamily: 'var(--font-sans)', fontWeight: 500 }}
+                    <button
+                      className="inline-flex items-center transition-colors group/link"
+                      style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, color: 'var(--blue-primary)' }}
+                      onMouseEnter={(e) => e.currentTarget.style.color = 'var(--blue-dark)'}
+                      onMouseLeave={(e) => e.currentTarget.style.color = 'var(--blue-primary)'}
                     >
-                      Lire plus
+                      Lire la suite
                       <ChevronRight className="ml-1 w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
-                    </Link>
+                    </button>
                   </div>
                 </article>
               ))}
@@ -253,7 +254,7 @@ export function Home() {
               to="/spectacles"
               className="inline-flex items-center justify-center px-8 py-4 rounded-md transition-all duration-300 hover:scale-105"
               style={{
-                backgroundColor: 'var(--gold)',
+                backgroundColor: 'var(--yellow-primary)',
                 color: 'var(--deep-charcoal)',
                 fontFamily: 'var(--font-sans)',
                 fontWeight: 500,
@@ -263,12 +264,21 @@ export function Home() {
             </Link>
             <Link
               to="/contact"
-              className="inline-flex items-center justify-center px-8 py-4 rounded-md border-2 transition-all duration-300 hover:bg-white hover:text-[var(--deep-charcoal)]"
+              className="inline-flex items-center justify-center px-8 py-4 rounded-md border-2 transition-all duration-300"
               style={{
-                borderColor: 'var(--off-white)',
-                color: 'var(--off-white)',
+                borderColor: 'var(--blue-primary)',
+                backgroundColor: 'var(--blue-primary)',
+                color: 'var(--white)',
                 fontFamily: 'var(--font-sans)',
-                fontWeight: 500,
+                fontWeight: 600,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--blue-dark)';
+                e.currentTarget.style.borderColor = 'var(--blue-dark)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'var(--blue-primary)';
+                e.currentTarget.style.borderColor = 'var(--blue-primary)';
               }}
             >
               Nous contacter

@@ -115,14 +115,14 @@ export function Actualites() {
                         </span>
                       </div>
                     )}
-                    <div className="absolute top-4 left-4 flex items-center space-x-2 bg-[var(--gold)] px-3 py-1.5 rounded-md">
+                    <div className="absolute top-4 left-4 flex items-center space-x-2 px-3 py-1.5 rounded-md" style={{ backgroundColor: 'var(--yellow-primary)' }}>
                       <Calendar className="w-4 h-4" style={{ color: 'var(--deep-charcoal)' }} />
                       <span
                         className="text-sm"
                         style={{
                           fontFamily: 'var(--font-sans)',
                           color: 'var(--deep-charcoal)',
-                          fontWeight: 500,
+                          fontWeight: 600,
                         }}
                       >
                         {item.date}
@@ -147,14 +147,15 @@ export function Actualites() {
                         ? `${item.excerpt.slice(0, MAX_EXCERPT_LENGTH).trim()}...`
                         : item.excerpt}
                     </p>
-                    <Link
-                      to={`/actualites/${item.id}`}
-                      className="inline-flex items-center text-[var(--gold)] hover:text-[var(--gold-dark)] transition-colors group/link"
-                      style={{ fontFamily: 'var(--font-sans)', fontWeight: 500 }}
+                    <button
+                      className="inline-flex items-center transition-colors group/link"
+                      style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, color: 'var(--blue-primary)' }}
+                      onMouseEnter={(e) => e.currentTarget.style.color = 'var(--blue-dark)'}
+                      onMouseLeave={(e) => e.currentTarget.style.color = 'var(--blue-primary)'}
                     >
                       Lire plus
                       <ChevronRight className="ml-1 w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
-                    </Link>
+                    </button>
                   </div>
                 </article>
               ))}

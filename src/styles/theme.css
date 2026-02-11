@@ -6,41 +6,59 @@
   --font-sans: 'Inter', sans-serif;
   --font-size: 16px;
   
-  /* Brand Color Palette (Logo-Based, Subtle Application) */
-  --deep-charcoal: #1B1E2B;
-  --gold: #3434db;
-  --gold-light: #FFFE01;
-  --gold-dark: #C00000;
-  --off-white: #FBFAF5;
-  --white: #FFFFFF;
-  --charcoal-light: #2A2E42;
-  --charcoal-lighter: #5C647A;
-  --brand-blue: #FD0000;
+  /* Logo Colors - Primary Palette */
+  --logo-yellow: #F7E923;
+  --logo-blue: #0039A6;
+  --logo-red: #E31837;
   
-  /* Main Theme Colors */
+  /* Extended Color Palette based on Logo */
+  /* Yellow variations */
+  --yellow-primary: #F7E923;
+  --yellow-light: #FFF59D;
+  --yellow-dark: #F9A825;
+  
+  /* Blue variations */
+  --blue-primary: #0039A6;
+  --blue-light: #1976D2;
+  --blue-dark: #002171;
+  
+  /* Red variations */
+  --red-primary: #E31837;
+  --red-light: #EF5350;
+  --red-dark: #C62828;
+  
+  /* Neutral colors */
+  --deep-charcoal: #1A1A2E;
+  --charcoal: #2D2D3A;
+  --charcoal-light: #454857;
+  --charcoal-lighter: #6B6D7E;
+  --off-white: #F8F9FA;
+  --white: #FFFFFF;
+  
+  /* Main Theme Colors - Using Logo Palette */
   --background: var(--off-white);
   --foreground: var(--deep-charcoal);
   --card: var(--white);
   --card-foreground: var(--deep-charcoal);
   --popover: var(--white);
   --popover-foreground: var(--deep-charcoal);
-  --primary: var(--brand-blue);
-  --primary-foreground: var(--white);
-  --secondary: var(--gold);
+  --primary: var(--yellow-primary);
+  --primary-foreground: var(--deep-charcoal);
+  --secondary: var(--blue-primary);
   --secondary-foreground: var(--white);
-  --muted: #F3F1E6;
+  --muted: #E8E9EB;
   --muted-foreground: var(--charcoal-lighter);
-  --accent: #FFF7A6;
-  --accent-foreground: var(--deep-charcoal);
-  --destructive: #C53030;
+  --accent: var(--red-primary);
+  --accent-foreground: var(--white);
+  --destructive: var(--red-dark);
   --destructive-foreground: var(--white);
-  --border: rgba(0, 0, 252, 0.12);
+  --border: rgba(26, 26, 46, 0.12);
   --input: transparent;
   --input-background: var(--white);
   --switch-background: #cbced4;
   --font-weight-medium: 500;
   --font-weight-normal: 400;
-  --ring: var(--brand-blue);
+  --ring: var(--blue-primary);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);

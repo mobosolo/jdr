@@ -20,7 +20,7 @@ export function Header() {
   const navLinks = [
     { name: 'Accueil', path: '/' },
     { name: 'Spectacles', path: '/spectacles' },
-    { name: 'ActualitÃ©s', path: '/actualites' },
+    { name: 'Actualités', path: '/actualites' },
     { name: 'Médias', path: '/medias' },
     { name: 'À Propos', path: '/a-propos' },
   ];
@@ -31,29 +31,29 @@ export function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-white/80 backdrop-blur-lg shadow-md'
-          : 'bg-white/60 backdrop-blur-md'
+          ? 'bg-white/90 backdrop-blur-lg shadow-md'
+          : 'bg-white/70 backdrop-blur-md'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
-            <img
-              src={logo}
-              alt="Logo Compagnie Culturelle JDR"
-              className="w-12 h-12 rounded-full object-cover"
+          <Link to="/" className="flex items-center gap-3 group">
+            <img 
+              src={logo} 
+              alt="Compagnie Culturelle JDR" 
+              className="h-14 w-auto transition-transform duration-300 group-hover:scale-105"
             />
-            <div className="flex flex-col">
+            <div className="hidden sm:flex flex-col">
               <span
-                className="text-2xl tracking-tight"
+                className="text-lg tracking-tight leading-tight"
                 style={{ fontFamily: 'var(--font-serif)', color: 'var(--deep-charcoal)' }}
               >
                 Compagnie Culturelle
               </span>
               <span
-                className="text-sm tracking-widest"
-                style={{ fontFamily: 'var(--font-sans)', color: 'var(--gold)' }}
+                className="text-xs tracking-widest uppercase"
+                style={{ fontFamily: 'var(--font-sans)', color: 'var(--blue-primary)', fontWeight: 600 }}
               >
                 JDR
               </span>
@@ -68,25 +68,25 @@ export function Header() {
                 to={link.path}
                 className={`relative py-2 transition-colors duration-200 ${
                   isActive(link.path)
-                    ? 'text-[var(--deep-charcoal)]'
-                    : 'text-[var(--charcoal-lighter)] hover:text-[var(--deep-charcoal)]'
+                    ? 'text-[var(--blue-primary)]'
+                    : 'text-[var(--charcoal-lighter)] hover:text-[var(--blue-primary)]'
                 }`}
-                style={{ fontFamily: 'var(--font-sans)' }}
+                style={{ fontFamily: 'var(--font-sans)', fontWeight: isActive(link.path) ? 600 : 500 }}
               >
                 {link.name}
                 {isActive(link.path) && (
-                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--gold)]" />
+                  <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--yellow-primary)]" />
                 )}
               </Link>
             ))}
             <Link
               to="/contact"
-              className="px-6 py-2.5 rounded-md transition-all duration-200 hover:scale-105"
+              className="px-6 py-2.5 rounded-md transition-all duration-200 hover:scale-105 hover:shadow-lg"
               style={{
-                backgroundColor: 'var(--gold)',
+                backgroundColor: 'var(--yellow-primary)',
                 color: 'var(--deep-charcoal)',
                 fontFamily: 'var(--font-sans)',
-                fontWeight: 500,
+                fontWeight: 600,
               }}
             >
               Contact
@@ -100,9 +100,9 @@ export function Header() {
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? (
-              <X className="w-6 h-6" style={{ color: 'var(--deep-charcoal)' }} />
+              <X className="w-6 h-6" style={{ color: 'var(--blue-primary)' }} />
             ) : (
-              <Menu className="w-6 h-6" style={{ color: 'var(--deep-charcoal)' }} />
+              <Menu className="w-6 h-6" style={{ color: 'var(--blue-primary)' }} />
             )}
           </button>
         </div>
@@ -110,7 +110,7 @@ export function Header() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden bg-white/95 backdrop-blur-lg border-t border-[var(--border)]">
+        <div className="md:hidden bg-white/95 backdrop-blur-lg border-t" style={{ borderColor: 'var(--border)' }}>
           <nav className="px-4 py-4 space-y-3">
             {navLinks.map((link) => (
               <Link
@@ -119,10 +119,17 @@ export function Header() {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`block py-2 px-4 rounded-md transition-colors ${
                   isActive(link.path)
-                    ? 'bg-[var(--gold)]/10 text-[var(--deep-charcoal)]'
+                    ? ''
                     : 'text-[var(--charcoal-lighter)] hover:bg-[var(--muted)]'
                 }`}
-                style={{ fontFamily: 'var(--font-sans)' }}
+                style={{ 
+                  fontFamily: 'var(--font-sans)',
+                  ...(isActive(link.path) ? {
+                    backgroundColor: 'var(--blue-primary)',
+                    color: 'var(--white)',
+                    fontWeight: 600
+                  } : {})
+                }}
               >
                 {link.name}
               </Link>
@@ -132,10 +139,10 @@ export function Header() {
               onClick={() => setIsMobileMenuOpen(false)}
               className="block py-2.5 px-4 rounded-md text-center"
               style={{
-                backgroundColor: 'var(--gold)',
+                backgroundColor: 'var(--yellow-primary)',
                 color: 'var(--deep-charcoal)',
                 fontFamily: 'var(--font-sans)',
-                fontWeight: 500,
+                fontWeight: 600,
               }}
             >
               Contact

@@ -90,10 +90,29 @@ export function Spectacles() {
               onClick={() => setFilter('all')}
               className={`px-6 py-2.5 rounded-md transition-all duration-200 ${
                 filter === 'all'
-                  ? 'bg-[var(--gold)] text-[var(--deep-charcoal)]'
-                  : 'bg-[var(--muted)] text-[var(--charcoal-lighter)] hover:bg-[var(--gold)]/20'
+                  ? ''
+                  : 'bg-[var(--muted)] text-[var(--charcoal-lighter)]'
               }`}
-              style={{ fontFamily: 'var(--font-sans)', fontWeight: 500 }}
+              style={{ 
+                fontFamily: 'var(--font-sans)', 
+                fontWeight: 600,
+                ...(filter === 'all' ? {
+                  backgroundColor: 'var(--yellow-primary)',
+                  color: 'var(--deep-charcoal)'
+                } : {})
+              }}
+              onMouseEnter={(e) => {
+                if (filter !== 'all') {
+                  e.currentTarget.style.backgroundColor = 'var(--yellow-light)';
+                  e.currentTarget.style.color = 'var(--deep-charcoal)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (filter !== 'all') {
+                  e.currentTarget.style.backgroundColor = 'var(--muted)';
+                  e.currentTarget.style.color = 'var(--charcoal-lighter)';
+                }
+              }}
             >
               Tous les spectacles
             </button>
@@ -101,10 +120,29 @@ export function Spectacles() {
               onClick={() => setFilter('upcoming')}
               className={`px-6 py-2.5 rounded-md transition-all duration-200 ${
                 filter === 'upcoming'
-                  ? 'bg-[var(--gold)] text-[var(--deep-charcoal)]'
-                  : 'bg-[var(--muted)] text-[var(--charcoal-lighter)] hover:bg-[var(--gold)]/20'
+                  ? ''
+                  : 'bg-[var(--muted)] text-[var(--charcoal-lighter)]'
               }`}
-              style={{ fontFamily: 'var(--font-sans)', fontWeight: 500 }}
+              style={{ 
+                fontFamily: 'var(--font-sans)', 
+                fontWeight: 600,
+                ...(filter === 'upcoming' ? {
+                  backgroundColor: 'var(--blue-primary)',
+                  color: 'var(--white)'
+                } : {})
+              }}
+              onMouseEnter={(e) => {
+                if (filter !== 'upcoming') {
+                  e.currentTarget.style.backgroundColor = 'var(--blue-light)';
+                  e.currentTarget.style.color = 'var(--white)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (filter !== 'upcoming') {
+                  e.currentTarget.style.backgroundColor = 'var(--muted)';
+                  e.currentTarget.style.color = 'var(--charcoal-lighter)';
+                }
+              }}
             >
               A venir
             </button>
@@ -112,10 +150,29 @@ export function Spectacles() {
               onClick={() => setFilter('past')}
               className={`px-6 py-2.5 rounded-md transition-all duration-200 ${
                 filter === 'past'
-                  ? 'bg-[var(--gold)] text-[var(--deep-charcoal)]'
-                  : 'bg-[var(--muted)] text-[var(--charcoal-lighter)] hover:bg-[var(--gold)]/20'
+                  ? ''
+                  : 'bg-[var(--muted)] text-[var(--charcoal-lighter)]'
               }`}
-              style={{ fontFamily: 'var(--font-sans)', fontWeight: 500 }}
+              style={{ 
+                fontFamily: 'var(--font-sans)', 
+                fontWeight: 600,
+                ...(filter === 'past' ? {
+                  backgroundColor: 'var(--charcoal-light)',
+                  color: 'var(--white)'
+                } : {})
+              }}
+              onMouseEnter={(e) => {
+                if (filter !== 'past') {
+                  e.currentTarget.style.backgroundColor = 'var(--charcoal-lighter)';
+                  e.currentTarget.style.color = 'var(--white)';
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (filter !== 'past') {
+                  e.currentTarget.style.backgroundColor = 'var(--muted)';
+                  e.currentTarget.style.color = 'var(--charcoal-lighter)';
+                }
+              }}
             >
               Passes
             </button>
@@ -164,20 +221,21 @@ export function Spectacles() {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
                     <div className="absolute top-4 right-4">
                       <span
-                        className={`px-4 py-1.5 rounded-full text-sm ${
-                          show.status === 'upcoming'
-                            ? 'bg-[var(--gold)] text-[var(--deep-charcoal)]'
-                            : 'bg-[var(--muted)] text-[var(--charcoal-lighter)]'
-                        }`}
-                        style={{ fontFamily: 'var(--font-sans)', fontWeight: 500 }}
+                        className={`px-4 py-1.5 rounded-full text-sm`}
+                        style={{ 
+                          fontFamily: 'var(--font-sans)', 
+                          fontWeight: 600,
+                          backgroundColor: show.status === 'upcoming' ? 'var(--yellow-primary)' : 'var(--charcoal-light)',
+                          color: show.status === 'upcoming' ? 'var(--deep-charcoal)' : 'var(--white)'
+                        }}
                       >
                         {show.status === 'upcoming' ? 'A venir' : 'Passe'}
                       </span>
                     </div>
                     <div className="absolute bottom-0 left-0 right-0 p-6">
                       <p
-                        className="text-[var(--gold)] text-sm mb-2"
-                        style={{ fontFamily: 'var(--font-sans)', fontWeight: 500 }}
+                        className="text-sm mb-2"
+                        style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, color: 'var(--yellow-primary)' }}
                       >
                         {show.subtitle}
                       </p>
@@ -198,25 +256,25 @@ export function Spectacles() {
                     </p>
                     <div className="space-y-2 mb-4">
                       <div className="flex items-center space-x-3 text-sm">
-                        <Calendar className="w-4 h-4" style={{ color: 'var(--gold)' }} />
+                        <Calendar className="w-4 h-4" style={{ color: 'var(--blue-primary)' }} />
                         <span style={{ fontFamily: 'var(--font-sans)', color: 'var(--deep-charcoal)' }}>
                           {show.date}
                         </span>
                       </div>
                       <div className="flex items-center space-x-3 text-sm">
-                        <MapPin className="w-4 h-4" style={{ color: 'var(--gold)' }} />
+                        <MapPin className="w-4 h-4" style={{ color: 'var(--blue-primary)' }} />
                         <span style={{ fontFamily: 'var(--font-sans)', color: 'var(--deep-charcoal)' }}>
                           {show.location}
                         </span>
                       </div>
                       <div className="flex items-center space-x-3 text-sm">
-                        <Clock className="w-4 h-4" style={{ color: 'var(--gold)' }} />
+                        <Clock className="w-4 h-4" style={{ color: 'var(--blue-primary)' }} />
                         <span style={{ fontFamily: 'var(--font-sans)', color: 'var(--deep-charcoal)' }}>
                           {show.duration}
                         </span>
                       </div>
                       <div className="flex items-center space-x-3 text-sm">
-                        <Users className="w-4 h-4" style={{ color: 'var(--gold)' }} />
+                        <Users className="w-4 h-4" style={{ color: 'var(--blue-primary)' }} />
                         <span style={{ fontFamily: 'var(--font-sans)', color: 'var(--deep-charcoal)' }}>
                           {show.capacity}
                         </span>
@@ -224,12 +282,12 @@ export function Spectacles() {
                     </div>
                     {show.status === 'upcoming' && (
                       <button
-                        className="w-full py-3 rounded-md transition-all duration-200 hover:scale-105"
+                        className="w-full py-3 rounded-md transition-all duration-200 hover:scale-105 hover:shadow-lg"
                         style={{
-                          backgroundColor: 'var(--gold)',
+                          backgroundColor: 'var(--yellow-primary)',
                           color: 'var(--deep-charcoal)',
                           fontFamily: 'var(--font-sans)',
-                          fontWeight: 500,
+                          fontWeight: 600,
                         }}
                       >
                         Reserver

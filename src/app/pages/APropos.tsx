@@ -43,7 +43,7 @@ export function APropos() {
     {
       name: 'Thomas Bernard',
       role: 'Directeur Technique',
-      image: 'https://images.unsplash.com/photo-1715322608224-a9efaeeffaf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzdGFnZSUyMGxpZ2h0cyUyMHRoZWF0cmljYWwlMjBsaWdodGluZ3xlbnwxfHx8fDE3NzAzMTc5MzR8MA&ixlib=rb-4.1.0&q=80&w=1080',
+      image: 'https://images.unsplash.com/photo-1715322608224-a9efaeeffaf7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHxzdGFnZSUyMGxpZ2h0cyUyMHRoZWF0cmljYWwlMjBsaWdodGluZ3xlbnwxfHx8fDE3NzAzMTc5MzR8MA&ixlib=rb-4.1.0&q=80&w=1080',
     },
   ];
 
@@ -109,7 +109,7 @@ export function APropos() {
             </div>
             <div className="relative h-[500px] rounded-lg overflow-hidden shadow-2xl">
               <img
-                src="https://images.unsplash.com/photo-1577537653888-383504d823ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0aGVhdGVyJTIwY29tcGFueSUyMHRlYW0lMjBncm91cHxlbnwxfHx8fDE3NzAzMTgwNjV8MA&ixlib=rb-4.1.0&q=80&w=1080"
+                src="https://images.unsplash.com/photo-1577537653888-383504d823ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx0aGVhdGVyJTIwY29tcGFueSUyMHRlYWmJTIwZ3JvdXB8ZW58MXx8fHwxNzcwMzE4MDY1fDA&ixlib=rb-4.1.0&q=80&w=1080"
                 alt="Notre équipe"
                 className="w-full h-full object-cover"
               />
@@ -126,7 +126,7 @@ export function APropos() {
               <div key={index} className="text-center">
                 <div
                   className="text-4xl md:text-5xl mb-2"
-                  style={{ fontFamily: 'var(--font-serif)', color: 'var(--gold)' }}
+                  style={{ fontFamily: 'var(--font-serif)', color: 'var(--yellow-primary)' }}
                 >
                   {stat.number}
                 </div>
@@ -152,19 +152,26 @@ export function APropos() {
             >
               Nos Valeurs
             </h2>
-            <div className="w-24 h-1 bg-[var(--gold)] mx-auto" />
+            <div className="w-24 h-1 bg-[var(--blue-primary)] mx-auto" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => {
               const Icon = value.icon;
+              const colorScheme = index % 2 === 0
+                ? { bg: 'var(--yellow-primary)', icon: 'var(--yellow-primary)' }
+                : { bg: 'var(--blue-primary)', icon: 'var(--blue-primary)' }; // Using blue-primary as substitute for undefined accent-blue
+
               return (
                 <div
                   key={index}
                   className="text-center p-6 rounded-lg bg-[var(--off-white)] hover:shadow-lg transition-shadow duration-300"
                 >
-                  <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[var(--gold)]/10 mb-4">
-                    <Icon className="w-8 h-8" style={{ color: 'var(--gold)' }} />
+                  <div
+                    className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4"
+                    style={{ backgroundColor: `${colorScheme.bg}15` }}
+                  >
+                    <Icon className="w-8 h-8" style={{ color: colorScheme.icon }} />
                   </div>
                   <h3
                     className="text-xl mb-3"
@@ -195,7 +202,7 @@ export function APropos() {
             >
               Notre Équipe
             </h2>
-            <div className="w-24 h-1 bg-[var(--gold)] mx-auto" />
+            <div className="w-24 h-1 bg-[var(--blue-primary)] mx-auto" />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -219,7 +226,7 @@ export function APropos() {
                       {member.name}
                     </h3>
                     <p
-                      className="text-[var(--gold)]"
+                      className="text-[var(--blue-primary)]"
                       style={{ fontFamily: 'var(--font-sans)', fontWeight: 500 }}
                     >
                       {member.role}
@@ -249,7 +256,7 @@ export function APropos() {
             et inspirent les esprits. Nous croyons au pouvoir transformateur des arts de la scène
             pour rassembler les communautés et enrichir la vie culturelle."
           </p>
-          <div className="w-32 h-1 bg-[var(--gold)] mx-auto" />
+          <div className="w-32 h-1 bg-[var(--yellow-primary)] mx-auto" />
         </div>
       </section>
     </div>

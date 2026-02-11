@@ -62,8 +62,10 @@ export function ActualiteDetail() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             to="/actualites"
-            className="inline-flex items-center text-[var(--gold)] hover:text-[var(--gold-dark)] transition-colors"
-            style={{ fontFamily: 'var(--font-sans)', fontWeight: 500 }}
+            className="inline-flex items-center transition-colors"
+            style={{ fontFamily: 'var(--font-sans)', fontWeight: 600, color: 'var(--blue-primary)' }}
+            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--blue-dark)'}
+            onMouseLeave={(e) => e.currentTarget.style.color = 'var(--blue-primary)'}
           >
             <ChevronLeft className="w-4 h-4 mr-1" />
             Retour aux actualites
@@ -104,14 +106,14 @@ export function ActualiteDetail() {
                     </span>
                   </div>
                 )}
-                <div className="absolute top-4 left-4 flex items-center space-x-2 bg-[var(--gold)] px-3 py-1.5 rounded-md">
+                <div className="absolute top-4 left-4 flex items-center space-x-2 px-3 py-1.5 rounded-md" style={{ backgroundColor: 'var(--yellow-primary)' }}>
                   <Calendar className="w-4 h-4" style={{ color: 'var(--deep-charcoal)' }} />
                   <span
                     className="text-sm"
                     style={{
                       fontFamily: 'var(--font-sans)',
                       color: 'var(--deep-charcoal)',
-                      fontWeight: 500,
+                      fontWeight: 600,
                     }}
                   >
                     {news.date}

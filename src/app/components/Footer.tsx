@@ -28,7 +28,7 @@ export function Footer() {
               </span>
               <span
                 className="text-sm tracking-widest"
-                style={{ fontFamily: 'var(--font-sans)', color: 'var(--gold)' }}
+                style={{ fontFamily: 'var(--font-sans)', color: 'var(--yellow-primary)', fontWeight: 600 }}
               >
                 JDR
               </span>
@@ -41,7 +41,7 @@ export function Footer() {
           <div>
             <h3
               className="text-lg mb-4"
-              style={{ fontFamily: 'var(--font-serif)', color: 'var(--gold)' }}
+              style={{ fontFamily: 'var(--font-serif)', color: 'var(--yellow-primary)' }}
             >
               Navigation
             </h3>
@@ -49,7 +49,7 @@ export function Footer() {
               <li>
                 <Link
                   to="/"
-                  className="text-sm text-[var(--charcoal-lighter)] hover:text-[var(--gold)] transition-colors"
+                  className="text-sm text-[var(--charcoal-lighter)] hover:text-[var(--yellow-primary)] transition-colors"
                 >
                   Accueil
                 </Link>
@@ -57,7 +57,7 @@ export function Footer() {
               <li>
                 <Link
                   to="/spectacles"
-                  className="text-sm text-[var(--charcoal-lighter)] hover:text-[var(--gold)] transition-colors"
+                  className="text-sm text-[var(--charcoal-lighter)] hover:text-[var(--yellow-primary)] transition-colors"
                 >
                   Spectacles
                 </Link>
@@ -65,7 +65,7 @@ export function Footer() {
               <li>
                 <Link
                   to="/medias"
-                  className="text-sm text-[var(--charcoal-lighter)] hover:text-[var(--gold)] transition-colors"
+                  className="text-sm text-[var(--charcoal-lighter)] hover:text-[var(--yellow-primary)] transition-colors"
                 >
                   Medias
                 </Link>
@@ -81,7 +81,7 @@ export function Footer() {
               <li>
                 <Link
                   to="/a-propos"
-                  className="text-sm text-[var(--charcoal-lighter)] hover:text-[var(--gold)] transition-colors"
+                  className="text-sm text-[var(--charcoal-lighter)] hover:text-[var(--yellow-primary)] transition-colors"
                 >
                   A Propos
                 </Link>
@@ -89,7 +89,7 @@ export function Footer() {
               <li>
                 <Link
                   to="/contact"
-                  className="text-sm text-[var(--charcoal-lighter)] hover:text-[var(--gold)] transition-colors"
+                  className="text-sm text-[var(--charcoal-lighter)] hover:text-[var(--yellow-primary)] transition-colors"
                 >
                   Contact
                 </Link>
@@ -100,23 +100,23 @@ export function Footer() {
           <div>
             <h3
               className="text-lg mb-4"
-              style={{ fontFamily: 'var(--font-serif)', color: 'var(--gold)' }}
+              style={{ fontFamily: 'var(--font-serif)', color: 'var(--yellow-primary)' }}
             >
               Contact
             </h3>
             <ul className="space-y-3" style={{ fontFamily: 'var(--font-sans)' }}>
               <li className="flex items-start space-x-3">
-                <MapPin className="w-4 h-4 mt-1 flex-shrink-0" style={{ color: 'var(--gold)' }} />
+                <MapPin className="w-4 h-4 mt-1 flex-shrink-0" style={{ color: 'var(--yellow-primary)' }} />
                 <span className="text-sm text-[var(--charcoal-lighter)]">
                   123 Rue du Theatre<br />75001 Paris, France
                 </span>
               </li>
               <li className="flex items-center space-x-3">
-                <Phone className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--gold)' }} />
+                <Phone className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--yellow-primary)' }} />
                 <span className="text-sm text-[var(--charcoal-lighter)]">+33 1 23 45 67 89</span>
               </li>
               <li className="flex items-center space-x-3">
-                <Mail className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--gold)' }} />
+                <Mail className="w-4 h-4 flex-shrink-0" style={{ color: 'var(--yellow-primary)' }} />
                 <span className="text-sm text-[var(--charcoal-lighter)]">contact@compagnie-jdr.fr</span>
               </li>
             </ul>
@@ -125,7 +125,7 @@ export function Footer() {
           <div>
             <h3
               className="text-lg mb-4"
-              style={{ fontFamily: 'var(--font-serif)', color: 'var(--gold)' }}
+              style={{ fontFamily: 'var(--font-serif)', color: 'var(--yellow-primary)' }}
             >
               Suivez-nous
             </h3>
@@ -137,28 +137,37 @@ export function Footer() {
                 href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full bg-[var(--charcoal-light)] hover:bg-[var(--gold)] transition-colors group"
+                className="p-2 rounded-full transition-all duration-200 group"
+                style={{ backgroundColor: 'var(--charcoal-light)' }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--blue-primary)'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--charcoal-light)'}
                 aria-label="Facebook"
               >
-                <Facebook className="w-5 h-5 text-[var(--off-white)] group-hover:text-[var(--deep-charcoal)]" />
+                <Facebook className="w-5 h-5 text-[var(--off-white)]" />
               </a>
               <a
                 href="https://instagram.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full bg-[var(--charcoal-light)] hover:bg-[var(--gold)] transition-colors group"
+                className="p-2 rounded-full transition-all duration-200 group"
+                style={{ backgroundColor: 'var(--charcoal-light)' }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--red-primary)'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--charcoal-light)'}
                 aria-label="Instagram"
               >
-                <Instagram className="w-5 h-5 text-[var(--off-white)] group-hover:text-[var(--deep-charcoal)]" />
+                <Instagram className="w-5 h-5 text-[var(--off-white)]" />
               </a>
               <a
                 href="https://youtube.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2 rounded-full bg-[var(--charcoal-light)] hover:bg-[var(--gold)] transition-colors group"
+                className="p-2 rounded-full transition-all duration-200 group"
+                style={{ backgroundColor: 'var(--charcoal-light)' }}
+                onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--red-primary)'}
+                onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--charcoal-light)'}
                 aria-label="YouTube"
               >
-                <Youtube className="w-5 h-5 text-[var(--off-white)] group-hover:text-[var(--deep-charcoal)]" />
+                <Youtube className="w-5 h-5 text-[var(--off-white)]" />
               </a>
             </div>
           </div>
@@ -168,7 +177,7 @@ export function Footer() {
       <div className="border-t border-[var(--charcoal-light)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <p className="text-sm text-center text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
-            Copyright {new Date().getFullYear()} Compagnie Culturelle JDR. Tous droits reserves.
+            © {new Date().getFullYear()} Compagnie Culturelle JDR. Tous droits reserves.
           </p>
         </div>
       </div>
