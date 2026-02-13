@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// --- Modèle Utilisateur ---
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String   // Hashé, bien sûr !
+  name      String?
+  role      Role     @default(USER) // ADMIN ou USER
+  news      News[]   // Un admin peut rédiger plusieurs actualités
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+// --- Modèle Actualités ---
+model News {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique // Pour des URLs propres (ex: /news/le-titre)
+  content     String   @db.Text
+  publishedAt DateTime @default(now())
+  author      User     @relation(fields: [authorId], references: [id])
+  authorId    String
+  images      Image[]  // Relation 1-n ou n-n pour les illustrations
+}
+
+// --- Modèle Spectacles ---
+model Show {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  location    String
+  startDate   DateTime
+  endDate     DateTime
+  // Le statut (passé, actuel, futur) sera déduit dynamiquement par les dates
+  // mais on peut ajouter un champ si besoin de tri complexe
+  images      Image[]
+  medias      Media[]  // Un spectacle peut avoir plusieurs médias associés
+}
+
+// --- Modèle Médias (Vidéos, Audio, etc.) ---
+model Media {
+  id          String    @id @default(cuid())
+  title       String
+  type        MediaType @default(VIDEO)
+  url         String    // Lien YouTube, Vimeo, ou Cloudinary
+  show        Show?     @relation(fields: [showId], references: [id])
+  showId      String?
+  images      Image[]   // Miniatures ou photos liées au média
+}
+
+enum MediaType {
+  VIDEO
+  AUDIO
+  PODCAST
+  DOCUMENT
+}
+
+// --- Modèle Image (Centralisé) ---
+// Ce modèle permet de gérer toutes les images du site au même endroit
+model Image {
+  id        String   @id @default(cuid())
+  url       String   // URL de stockage (Cloudinary, S3, etc.)
+  alt       String?  // Texte alternatif pour l'accessibilité
+  news      News?    @relation(fields: [newsId], references: [id])
+  newsId    String?
+  show      Show?    @relation(fields: [showId], references: [id])
+  showId    String?
+  media     Media?   @relation(fields: [mediaId], references: [id])
+  mediaId   String?
+  createdAt DateTime @default(now())
+}

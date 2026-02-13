@@ -1,14 +1,16 @@
-import { useEffect, useState } from 'react';
-import Masonry from 'react-responsive-masonry';
-import { X } from 'lucide-react';
+import { useEffect, useState } from "react";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import { X } from "lucide-react";
 
+// Interface adaptée à Prisma
 interface MediaPhoto {
-  id: number;
+  id: string;
   url: string;
   title: string | null;
 }
 
-const apiBase = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
+// const apiBase = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
+const apiBase = "http://localhost:4000";
 
 export function Medias() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -28,15 +30,13 @@ export function Medias() {
           throw new Error(`Erreur API: ${response.status}`);
         }
         const data = await response.json();
-        if (!Array.isArray(data)) {
-          throw new Error('Reponse invalide du serveur.');
-        }
+
         if (isMounted) {
           setPhotos(data);
         }
       } catch (err) {
         if (isMounted) {
-          setError(err instanceof Error ? err.message : 'Erreur inconnue');
+          setError(err instanceof Error ? err.message : "Erreur inconnue");
         }
       } finally {
         if (isMounted) {
@@ -46,7 +46,6 @@ export function Medias() {
     };
 
     loadPhotos();
-
     return () => {
       isMounted = false;
     };
@@ -54,89 +53,88 @@ export function Medias() {
 
   return (
     <div className="min-h-screen pt-20">
+      {/* Header Section */}
       <section className="py-20 bg-gradient-to-b from-[var(--deep-charcoal)] to-[var(--charcoal-light)] text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1
-              className="text-5xl md:text-6xl mb-6"
-              style={{ fontFamily: 'var(--font-serif)' }}
-            >
-              Medias
-            </h1>
-            <p
-              className="text-xl text-[var(--off-white)] max-w-3xl mx-auto leading-relaxed"
-              style={{ fontFamily: 'var(--font-sans)' }}
-            >
-              Plongez dans l'univers visuel de la Compagnie Culturelle JDR.
-            </p>
-          </div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-5xl md:text-6xl mb-6 font-serif">Médias</h1>
+          <p className="text-xl text-[var(--off-white)] max-w-3xl mx-auto leading-relaxed font-sans opacity-90">
+            Plongez dans l'univers visuel et artistique de la Compagnie
+            Culturelle JDR.
+          </p>
         </div>
       </section>
 
-      <section className="py-16 bg-[var(--off-white)]">
+      {/* Gallery Section */}
+      <section className="py-16 bg-[var(--off-white)] min-h-[500px]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {isLoading && (
-            <div className="text-center text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
-              Chargement des medias...
+            <div className="text-center py-20 text-[var(--charcoal-lighter)] font-sans">
+              Ouverture des archives...
             </div>
           )}
+
           {!isLoading && error && (
-            <div className="text-center text-red-600" style={{ fontFamily: 'var(--font-sans)' }}>
-              Erreur: {error}
+            <div className="text-center py-20 text-red-600 font-sans">
+              Erreur : {error}
             </div>
           )}
+
           {!isLoading && !error && photos.length === 0 && (
-            <div className="text-center text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
-              Aucune photo pour le moment.
+            <div className="text-center py-20 text-[var(--charcoal-lighter)] font-sans">
+              La galerie est vide pour le moment.
             </div>
           )}
+
           {!isLoading && !error && photos.length > 0 && (
-            <Masonry columnsCount={3} gutter="1.5rem">
-              {photos.map((photo) => (
-                <div
-                  key={photo.id}
-                  className="relative group cursor-pointer overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300"
-                  onClick={() => setSelectedImage(photo.url)}
-                >
-                  <img
-                    src={photo.url}
-                    alt={photo.title ?? 'Photo'}
-                    className="w-full h-auto group-hover:scale-110 transition-transform duration-500"
-                    style={{ display: 'block' }}
-                    loading="lazy"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <p
-                        className="text-white text-lg"
-                        style={{ fontFamily: 'var(--font-sans)', fontWeight: 500 }}
-                      >
-                        {photo.title ?? 'Photo'}
+            <ResponsiveMasonry
+              columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
+            >
+              <Masonry gutter="1.5rem">
+                {photos.map((photo) => (
+                  <div
+                    key={photo.id}
+                    className="relative group cursor-pointer overflow-hidden rounded-xl shadow-sm hover:shadow-2xl transition-all duration-500 bg-white"
+                    onClick={() => setSelectedImage(photo.url)}
+                  >
+                    <img
+                      src={photo.url}
+                      alt={photo.title ?? "Photo de la compagnie"}
+                      className="w-full h-auto block transform group-hover:scale-105 transition-transform duration-700 ease-out"
+                      loading="lazy"
+                    />
+
+                    {/* Overlay au survol */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                      <p className="text-white text-lg font-sans font-medium">
+                        {photo.title ?? "Voir en grand"}
                       </p>
                     </div>
                   </div>
-                </div>
-              ))}
-            </Masonry>
+                ))}
+              </Masonry>
+            </ResponsiveMasonry>
           )}
         </div>
       </section>
 
+      {/* Lightbox (Plein écran) */}
       {selectedImage && (
         <div
-          className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
+          className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4 backdrop-blur-sm transition-all duration-300"
           onClick={() => setSelectedImage(null)}
         >
           <button
-            className="absolute top-4 right-4 text-white hover:text-[var(--gold)] transition-colors"
+            className="absolute top-6 right-6 text-white/70 hover:text-[var(--yellow-primary)] transition-colors p-2"
             onClick={() => setSelectedImage(null)}
+            aria-label="Fermer"
           >
-            <X className="w-8 h-8" />
+            <X className="w-10 h-10" />
           </button>
+
           <img
             src={selectedImage}
-            alt="Full size"
-            className="max-w-full max-h-full object-contain"
+            alt="Plein écran"
+            className="max-w-full max-h-[90vh] object-contain rounded-sm shadow-2xl animate-in zoom-in-95 duration-300"
             onClick={(e) => e.stopPropagation()}
           />
         </div>
