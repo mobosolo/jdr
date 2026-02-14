@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Calendar, MapPin, Clock, Users } from "lucide-react";
 
-// 1. Types alignés sur ton schéma Prisma
+// 1. Types alignÃ©s sur ton schÃ©ma Prisma
 interface Show {
   id: string;
   title: string;
@@ -18,7 +18,7 @@ interface Show {
 }
 
 // const apiBase = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
-const apiBase = "http://localhost:4000";
+const apiBase = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
 
 export function Spectacles() {
   const [filter, setFilter] = useState<"all" | "upcoming" | "past">("all");
@@ -48,7 +48,7 @@ export function Spectacles() {
     };
   }, []);
 
-  // 2. Logique de filtrage basée sur la date actuelle
+  // 2. Logique de filtrage basÃ©e sur la date actuelle
   const now = new Date();
   const filteredShows = shows.filter((show) => {
     const showDate = new Date(show.startDate);
@@ -66,7 +66,7 @@ export function Spectacles() {
             Nos Spectacles
           </h1>
           <p className="text-xl text-[var(--off-white)] max-w-3xl mx-auto font-sans opacity-90">
-            Découvrez notre programmation et la richesse des arts de la scène.
+            DÃ©couvrez notre programmation et la richesse des arts de la scÃ¨ne.
           </p>
         </div>
       </section>
@@ -80,8 +80,8 @@ export function Spectacles() {
               label: "Tous les spectacles",
               color: "var(--yellow-primary)",
             },
-            { id: "upcoming", label: "À venir", color: "var(--blue-primary)" },
-            { id: "past", label: "Passés", color: "var(--charcoal-light)" },
+            { id: "upcoming", label: "Ã€ venir", color: "var(--blue-primary)" },
+            { id: "past", label: "PassÃ©s", color: "var(--charcoal-light)" },
           ].map((btn) => (
             <button
               key={btn.id}
@@ -109,7 +109,7 @@ export function Spectacles() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {isLoading ? (
             <div className="text-center py-20 text-gray-500 animate-pulse">
-              Chargement de la scène...
+              Chargement de la scÃ¨ne...
             </div>
           ) : error ? (
             <div className="text-center py-20 text-red-600 font-bold">
@@ -117,7 +117,7 @@ export function Spectacles() {
             </div>
           ) : filteredShows.length === 0 ? (
             <div className="text-center py-20 text-gray-400">
-              Aucun spectacle ne correspond à ce filtre.
+              Aucun spectacle ne correspond Ã  ce filtre.
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -140,7 +140,7 @@ export function Spectacles() {
                         />
                       ) : (
                         <div className="w-full h-full bg-gray-200 flex items-center justify-center italic text-gray-400">
-                          Image bientôt disponible
+                          Image bientÃ´t disponible
                         </div>
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
@@ -155,7 +155,7 @@ export function Spectacles() {
                           color: isUpcoming ? "var(--deep-charcoal)" : "white",
                         }}
                       >
-                        {isUpcoming ? "À venir" : "Passé"}
+                        {isUpcoming ? "Ã€ venir" : "PassÃ©"}
                       </div>
 
                       {/* Title & Subtitle on Image */}
@@ -209,7 +209,7 @@ export function Spectacles() {
                             color: "var(--deep-charcoal)",
                           }}
                         >
-                          Réserver ma place
+                          RÃ©server ma place
                         </button>
                       )}
                     </div>
@@ -223,3 +223,4 @@ export function Spectacles() {
     </div>
   );
 }
+

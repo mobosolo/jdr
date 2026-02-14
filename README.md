@@ -1,30 +1,60 @@
+﻿# JDR - Front + API Prisma
 
-  # High-Fidelity Web Design
+## Prerequisites
 
-  This is a code bundle for High-Fidelity Web Design. The original project is available at https://www.figma.com/design/Wb0ipDdOjIgmk6csY18Bhq/High-Fidelity-Web-Design.
+- Node.js 20+ (LTS recommended)
+- PostgreSQL running locally
 
-  ## Running the code
+## Setup
 
-  Run `npm i` to install the dependencies.
+1. Install dependencies
 
-  Run `npm run dev` to start the development server.
-  
+```bash
+npm install
+```
 
-## pour la base de donnee
-1- npm install prisma tsx @types/pg --save-dev
-2- npm install @prisma/client @prisma/adapter-pg dotenv pg
-3- creer une base de données postgres du nom de jdr
-4- creer un fichier .env et mettez : DATABASE_URL="postgresql://johndoe:randompassword@localhost:5432/statAi?schema=public"
-en remplacant johndoe->par le nom de votre server; randompassword->par le mot de passe.
-s'il y'a une erreur verifier que le nom statAi est bien celui que vous avez mis pour la base de donne
-5- npx prisma migrate
-6- npx prisma generate
-7- npx tsx script.ts
-8- npx prisma studio (pour visualiser la base)
-9- npm install cors
-10- npm install express
+2. Configure `.env`
 
+```env
+VITE_API_URL=http://localhost:4000
+PORT=4000
+CORS_ORIGIN=http://localhost:5173
+DATABASE_URL=postgresql://postgres:password@localhost:5432/jdr
 
+ADMIN_USER=admin
+ADMIN_PASSWORD=change_me
+ADMIN_JWT_SECRET=change_me_long_random_value
+NODE_ENV=development
+```
 
-  **pour lancer le server:
-  _ npx tsx routes/server.ts
+3. Apply Prisma migrations and generate client
+
+```bash
+npx prisma migrate dev --name init
+npx prisma generate
+```
+
+4. Seed data (optional)
+
+```bash
+npx tsx script.ts
+```
+
+## Run
+
+- Frontend (Vite):
+
+```bash
+npm run dev
+```
+
+- API server (Prisma):
+
+```bash
+npm run server
+```
+
+## Notes
+
+- The project now uses `routes/server.ts` as the single backend.
+- Legacy SQL server files in `server/` are no longer part of the active runtime path.

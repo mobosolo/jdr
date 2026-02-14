@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { adminFetch } from '../lib/adminFetch';
 
 interface NewsItem {
-  id: number;
+  id: string;
   title: string;
-  date: string;
-  excerpt: string;
-  content: string | null;
+  publishedAt: string;
+  content: string;
   image: string | null;
 }
 
@@ -14,22 +13,19 @@ const apiBase = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
 
 const emptyForm = {
   title: '',
-  date: '',
-  excerpt: '',
+  publishedAt: '',
   content: '',
+  imageUrl: '',
 };
 
 export function AdminActualites() {
   const [form, setForm] = useState(emptyForm);
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [shows, setShows] = useState<NewsItem[]>([]);
+  const [newsList, setNewsList] = useState<NewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [editingId, setEditingId] = useState<number | null>(null);
-  const [existingImage, setExistingImage] = useState<string | null>(null);
-  const [removeImage, setRemoveImage] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const loadNews = async () => {
     setIsLoading(true);
@@ -42,7 +38,7 @@ export function AdminActualites() {
       if (!Array.isArray(data)) {
         throw new Error('Reponse invalide du serveur.');
       }
-      setShows(data);
+      setNewsList(data);
     } catch (err) {
       setMessage({
         type: 'error',
@@ -65,42 +61,34 @@ export function AdminActualites() {
 
   const resetForm = () => {
     setForm(emptyForm);
-    setImageFile(null);
     setIsEditing(false);
     setEditingId(null);
-    setExistingImage(null);
-    setRemoveImage(false);
   };
 
   const handleEdit = (item: NewsItem) => {
     setForm({
       title: item.title,
-      date: item.date,
-      excerpt: item.excerpt,
-      content: item.content ?? '',
+      publishedAt: item.publishedAt.slice(0, 10),
+      content: item.content,
+      imageUrl: item.image ?? '',
     });
-    setExistingImage(item.image);
-    setRemoveImage(false);
-    setImageFile(null);
     setIsEditing(true);
     setEditingId(item.id);
     setMessage(null);
   };
 
   const handleDelete = async (item: NewsItem) => {
-    if (!window.confirm(`Supprimer l'actualite "${item.title}" ?`)) {
+    if (!window.confirm(`Supprimer l'actualite \"${item.title}\" ?`)) {
       return;
     }
     setMessage(null);
     try {
-      const response = await adminFetch(`${apiBase}/api/news/${item.id}`, {
-        method: 'DELETE',
-      });
+      const response = await adminFetch(`/api/news/${item.id}`, { method: 'DELETE' });
       if (!response.ok) {
         const text = await response.text();
         throw new Error(text || `Erreur API: ${response.status}`);
       }
-      setShows((prev) => prev.filter((news) => news.id !== item.id));
+      setNewsList((prev) => prev.filter((news) => news.id !== item.id));
       if (editingId === item.id) {
         resetForm();
       }
@@ -118,25 +106,19 @@ export function AdminActualites() {
     setMessage(null);
 
     try {
-      const formData = new FormData();
-      formData.append('title', form.title);
-      formData.append('date', form.date);
-      formData.append('excerpt', form.excerpt);
-      if (form.content.trim()) {
-        formData.append('content', form.content.trim());
-      }
-      if (imageFile) {
-        formData.append('image', imageFile);
-      }
-      if (isEditing) {
-        formData.append('removeImage', String(removeImage));
-      }
+      const payload = {
+        title: form.title.trim(),
+        content: form.content.trim(),
+        publishedAt: form.publishedAt,
+        imageUrl: form.imageUrl.trim() || null,
+      };
 
       const response = await adminFetch(
-        isEditing && editingId ? `${apiBase}/api/news/${editingId}` : `${apiBase}/api/news`,
+        isEditing && editingId ? `/api/news/${editingId}` : '/api/news',
         {
           method: isEditing ? 'PUT' : 'POST',
-          body: formData,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
         }
       );
 
@@ -148,10 +130,10 @@ export function AdminActualites() {
       const saved = (await response.json()) as NewsItem;
 
       if (isEditing) {
-        setShows((prev) => prev.map((item) => (item.id === saved.id ? saved : item)));
+        setNewsList((prev) => prev.map((item) => (item.id === saved.id ? saved : item)));
         setMessage({ type: 'success', text: 'Actualite modifiee avec succes.' });
       } else {
-        setShows((prev) => [saved, ...prev]);
+        setNewsList((prev) => [saved, ...prev]);
         setMessage({ type: 'success', text: 'Actualite ajoutee avec succes.' });
       }
 
@@ -175,7 +157,7 @@ export function AdminActualites() {
               Admin - Actualites
             </h1>
             <p className="mt-3 text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
-              Ajoutez ou modifiez une actualite. L'image est optionnelle.
+              Ajoutez ou modifiez une actualite.
             </p>
           </div>
 
@@ -195,14 +177,13 @@ export function AdminActualites() {
               </div>
               <div>
                 <label className="block text-sm mb-2" style={{ fontFamily: 'var(--font-sans)' }}>
-                  Date (texte)
+                  Date de publication
                 </label>
                 <input
-                  type="text"
-                  value={form.date}
-                  onChange={updateField('date')}
+                  type="date"
+                  value={form.publishedAt}
+                  onChange={updateField('publishedAt')}
                   className="w-full px-4 py-2 rounded-md border border-[var(--border)]"
-                  placeholder="15 Janvier 2026"
                   required
                 />
               </div>
@@ -210,57 +191,27 @@ export function AdminActualites() {
 
             <div>
               <label className="block text-sm mb-2" style={{ fontFamily: 'var(--font-sans)' }}>
-                Extrait
+                URL image (optionnelle)
               </label>
-              <textarea
-                value={form.excerpt}
-                onChange={updateField('excerpt')}
+              <input
+                type="url"
+                value={form.imageUrl}
+                onChange={updateField('imageUrl')}
                 className="w-full px-4 py-2 rounded-md border border-[var(--border)]"
-                rows={3}
-                required
               />
             </div>
 
             <div>
               <label className="block text-sm mb-2" style={{ fontFamily: 'var(--font-sans)' }}>
-                Contenu (optionnel)
+                Contenu
               </label>
               <textarea
                 value={form.content}
                 onChange={updateField('content')}
                 className="w-full px-4 py-2 rounded-md border border-[var(--border)]"
-                rows={4}
+                rows={6}
+                required
               />
-            </div>
-
-            <div>
-              <label className="block text-sm mb-2" style={{ fontFamily: 'var(--font-sans)' }}>
-                Image (optionnelle)
-              </label>
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(event) => {
-                  const file = event.target.files?.[0] ?? null;
-                  setImageFile(file);
-                }}
-                className="w-full"
-              />
-              {isEditing && existingImage && !removeImage && (
-                <div className="mt-2 text-sm text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
-                  Image actuelle: {existingImage}
-                </div>
-              )}
-              {isEditing && existingImage && (
-                <label className="mt-2 flex items-center gap-2 text-sm" style={{ fontFamily: 'var(--font-sans)' }}>
-                  <input
-                    type="checkbox"
-                    checked={removeImage}
-                    onChange={(event) => setRemoveImage(event.target.checked)}
-                  />
-                  Supprimer l'image actuelle
-                </label>
-              )}
             </div>
 
             <div className="flex flex-wrap items-center gap-4">
@@ -288,10 +239,7 @@ export function AdminActualites() {
                 </button>
               )}
               {message && (
-                <span
-                  className={message.type === 'success' ? 'text-green-700' : 'text-red-600'}
-                  style={{ fontFamily: 'var(--font-sans)' }}
-                >
+                <span className={message.type === 'success' ? 'text-green-700' : 'text-red-600'} style={{ fontFamily: 'var(--font-sans)' }}>
                   {message.text}
                 </span>
               )}
@@ -310,33 +258,24 @@ export function AdminActualites() {
               Chargement...
             </div>
           )}
-          {!isLoading && shows.length === 0 && (
+          {!isLoading && newsList.length === 0 && (
             <div className="text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
               Aucune actualite pour le moment.
             </div>
           )}
-          {!isLoading && shows.length > 0 && (
+          {!isLoading && newsList.length > 0 && (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {shows.map((item) => (
+              {newsList.map((item) => (
                 <article key={item.id} className="bg-white rounded-lg shadow-md p-5">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="text-xl" style={{ fontFamily: 'var(--font-serif)' }}>
-                        {item.title}
-                      </h3>
-                      <p className="text-sm text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
-                        {item.date}
-                      </p>
-                    </div>
-                  </div>
-                  <p className="mt-3 text-sm text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
-                    {item.excerpt}
+                  <h3 className="text-xl" style={{ fontFamily: 'var(--font-serif)' }}>
+                    {item.title}
+                  </h3>
+                  <p className="text-sm text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
+                    {new Date(item.publishedAt).toLocaleDateString('fr-FR')}
                   </p>
-                  {item.content && (
-                    <p className="mt-3 text-sm text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
-                      {item.content}
-                    </p>
-                  )}
+                  <p className="mt-3 text-sm text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
+                    {item.content}
+                  </p>
                   <div className="mt-4 flex items-center gap-3">
                     <button
                       type="button"

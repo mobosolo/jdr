@@ -1,15 +1,13 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { adminFetch } from '../lib/adminFetch';
 
 interface ContactMessage {
-  id: number;
+  id: string;
   name: string;
   email: string;
   message: string;
   created_at: string;
 }
-
-const apiBase = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
 
 export function AdminMessages() {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
@@ -19,7 +17,7 @@ export function AdminMessages() {
   const loadMessages = async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`${apiBase}/api/contact/messages`, { credentials: 'include' });
+      const response = await adminFetch('/api/contact/messages');
       if (!response.ok) {
         throw new Error(`Erreur API: ${response.status}`);
       }
@@ -48,7 +46,7 @@ export function AdminMessages() {
     }
     setMessage(null);
     try {
-      const response = await adminFetch(`${apiBase}/api/contact/messages/${item.id}`, {
+      const response = await adminFetch(`/api/contact/messages/${item.id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {

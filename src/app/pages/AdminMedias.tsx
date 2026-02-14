@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { adminFetch } from '../lib/adminFetch';
 
 interface MediaPhoto {
-  id: number;
+  id: string;
   url: string;
   title: string | null;
 }
@@ -11,7 +11,7 @@ const apiBase = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
 
 export function AdminMedias() {
   const [title, setTitle] = useState('');
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [url, setUrl] = useState('');
   const [photos, setPhotos] = useState<MediaPhoto[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -45,8 +45,8 @@ export function AdminMedias() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!imageFile) {
-      setMessage({ type: 'error', text: 'Selectionnez une image.' });
+    if (!url.trim()) {
+      setMessage({ type: 'error', text: 'Entrez une URL image.' });
       return;
     }
 
@@ -54,15 +54,10 @@ export function AdminMedias() {
     setMessage(null);
 
     try {
-      const formData = new FormData();
-      formData.append('image', imageFile);
-      if (title.trim()) {
-        formData.append('title', title.trim());
-      }
-
-      const response = await adminFetch(`${apiBase}/api/media/photos`, {
+      const response = await adminFetch('/api/media/photos', {
         method: 'POST',
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: url.trim(), title: title.trim() || null }),
       });
 
       if (!response.ok) {
@@ -73,7 +68,7 @@ export function AdminMedias() {
       const created = (await response.json()) as MediaPhoto;
       setPhotos((prev) => [created, ...prev]);
       setTitle('');
-      setImageFile(null);
+      setUrl('');
       setMessage({ type: 'success', text: 'Photo ajoutee avec succes.' });
     } catch (err) {
       setMessage({
@@ -91,7 +86,7 @@ export function AdminMedias() {
     }
     setMessage(null);
     try {
-      const response = await adminFetch(`${apiBase}/api/media/photos/${photo.id}`, {
+      const response = await adminFetch(`/api/media/photos/${photo.id}`, {
         method: 'DELETE',
       });
       if (!response.ok) {
@@ -116,7 +111,7 @@ export function AdminMedias() {
               Admin - Medias
             </h1>
             <p className="mt-3 text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
-              Ajoutez des photos pour la galerie Medias.
+              Ajoutez des photos par URL pour la galerie Medias.
             </p>
           </div>
 
@@ -135,16 +130,13 @@ export function AdminMedias() {
               </div>
               <div>
                 <label className="block text-sm mb-2" style={{ fontFamily: 'var(--font-sans)' }}>
-                  Image
+                  URL image
                 </label>
                 <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(event) => {
-                    const file = event.target.files?.[0] ?? null;
-                    setImageFile(file);
-                  }}
-                  className="w-full"
+                  type="url"
+                  value={url}
+                  onChange={(event) => setUrl(event.target.value)}
+                  className="w-full px-4 py-2 rounded-md border border-[var(--border)]"
                   required
                 />
               </div>

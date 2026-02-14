@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Calendar, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 
-// 1. Interface alignée sur Prisma avec sécurité sur les tableaux
+// 1. Interface alignÃ©e sur Prisma avec sÃ©curitÃ© sur les tableaux
 interface NewsItem {
   id: string;
   title: string;
@@ -14,8 +14,7 @@ interface NewsItem {
   }[];
 }
 
-// const apiBase = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
-const apiBase = "http://localhost:4000";
+const apiBase = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
 const MAX_EXCERPT_LENGTH = 160;
 
 // Utilitaire pour un formatage de date propre
@@ -66,23 +65,23 @@ export function Actualites() {
 
   return (
     <div className="min-h-screen pt-20">
-      {/* --- En-tête --- */}
+      {/* --- En-tÃªte --- */}
       <section className="py-20 bg-gradient-to-b from-[var(--deep-charcoal)] to-[var(--charcoal-light)] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl mb-6 font-serif">Actualités</h1>
+          <h1 className="text-5xl md:text-6xl mb-6 font-serif">ActualitÃ©s</h1>
           <p className="text-xl text-[var(--off-white)] max-w-3xl mx-auto leading-relaxed font-sans">
-            Suivez les dernières nouvelles de la Compagnie JDR, nos créations et
-            nos événements à venir.
+            Suivez les derniÃ¨res nouvelles de la Compagnie JDR, nos crÃ©ations et
+            nos Ã©vÃ©nements Ã  venir.
           </p>
         </div>
       </section>
 
-      {/* --- Liste des actualités --- */}
+      {/* --- Liste des actualitÃ©s --- */}
       <section className="py-16 bg-[var(--off-white)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {isLoading && (
             <div className="text-center text-[var(--charcoal-lighter)] font-sans">
-              Chargement des actualités...
+              Chargement des actualitÃ©s...
             </div>
           )}
 
@@ -94,13 +93,13 @@ export function Actualites() {
 
           {!isLoading && !error && news.length === 0 && (
             <div className="text-center text-[var(--charcoal-lighter)] font-sans">
-              Aucune actualité pour le moment.
+              Aucune actualitÃ© pour le moment.
             </div>
           )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {news.map((item) => {
-              // SÉCURITÉ : On vérifie si images existe et n'est pas vide
+              // SÃ‰CURITÃ‰ : On vÃ©rifie si images existe et n'est pas vide
               const hasImage = item.images && item.images.length > 0;
               const mainImage = hasImage ? item.images[0] : null;
 
@@ -158,3 +157,4 @@ export function Actualites() {
     </div>
   );
 }
+

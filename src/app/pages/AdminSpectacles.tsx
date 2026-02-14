@@ -1,31 +1,22 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { adminFetch } from '../lib/adminFetch';
 
-type ShowStatus = 'upcoming' | 'past';
-
 interface Show {
-  id: number;
+  id: string;
   title: string;
-  subtitle: string;
-  image: string | null;
-  status: ShowStatus;
-  date: string;
-  location: string;
-  duration: string;
-  capacity: string;
   description: string;
+  location: string;
+  startDate: string;
+  endDate: string;
 }
 
 const apiBase = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
 
 const emptyForm = {
   title: '',
-  subtitle: '',
-  status: 'upcoming' as ShowStatus,
-  date: '',
   location: '',
-  duration: '',
-  capacity: '',
+  startDate: '',
+  endDate: '',
   description: '',
 };
 
@@ -36,7 +27,7 @@ export function AdminSpectacles() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [editingId, setEditingId] = useState<number | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const loadShows = async () => {
     setIsLoading(true);
@@ -65,7 +56,7 @@ export function AdminSpectacles() {
   }, []);
 
   const updateField = (field: keyof typeof emptyForm) => (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setForm((prev) => ({ ...prev, [field]: event.target.value }));
   };
@@ -79,12 +70,9 @@ export function AdminSpectacles() {
   const handleEdit = (show: Show) => {
     setForm({
       title: show.title,
-      subtitle: show.subtitle,
-      status: show.status,
-      date: show.date,
       location: show.location,
-      duration: show.duration,
-      capacity: show.capacity,
+      startDate: show.startDate.slice(0, 10),
+      endDate: show.endDate.slice(0, 10),
       description: show.description,
     });
     setIsEditing(true);
@@ -93,12 +81,12 @@ export function AdminSpectacles() {
   };
 
   const handleDelete = async (show: Show) => {
-    if (!window.confirm(`Supprimer le spectacle "${show.title}" ?`)) {
+    if (!window.confirm(`Supprimer le spectacle \"${show.title}\" ?`)) {
       return;
     }
     setMessage(null);
     try {
-      const response = await adminFetch(`${apiBase}/api/shows/${show.id}`, { method: 'DELETE' });
+      const response = await adminFetch(`/api/shows/${show.id}`, { method: 'DELETE' });
       if (!response.ok) {
         const text = await response.text();
         throw new Error(text || `Erreur API: ${response.status}`);
@@ -121,12 +109,20 @@ export function AdminSpectacles() {
     setMessage(null);
 
     try {
+      const payload = {
+        title: form.title.trim(),
+        location: form.location.trim(),
+        description: form.description.trim(),
+        startDate: form.startDate,
+        endDate: form.endDate,
+      };
+
       const response = await adminFetch(
-        isEditing && editingId ? `${apiBase}/api/shows/${editingId}` : `${apiBase}/api/shows`,
+        isEditing && editingId ? `/api/shows/${editingId}` : '/api/shows',
         {
           method: isEditing ? 'PUT' : 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(form),
+          body: JSON.stringify(payload),
         }
       );
 
@@ -165,7 +161,7 @@ export function AdminSpectacles() {
               Admin - Spectacles
             </h1>
             <p className="mt-3 text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
-              Ajoutez ou modifiez un spectacle. Une image est choisie aleatoirement depuis la bibliotheque.
+              Ajoutez ou modifiez un spectacle.
             </p>
           </div>
 
@@ -185,50 +181,6 @@ export function AdminSpectacles() {
               </div>
               <div>
                 <label className="block text-sm mb-2" style={{ fontFamily: 'var(--font-sans)' }}>
-                  Sous-titre
-                </label>
-                <input
-                  type="text"
-                  value={form.subtitle}
-                  onChange={updateField('subtitle')}
-                  className="w-full px-4 py-2 rounded-md border border-[var(--border)]"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm mb-2" style={{ fontFamily: 'var(--font-sans)' }}>
-                  Statut
-                </label>
-                <select
-                  value={form.status}
-                  onChange={updateField('status')}
-                  className="w-full px-4 py-2 rounded-md border border-[var(--border)]"
-                >
-                  <option value="upcoming">A venir</option>
-                  <option value="past">Passe</option>
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm mb-2" style={{ fontFamily: 'var(--font-sans)' }}>
-                  Date (texte)
-                </label>
-                <input
-                  type="text"
-                  value={form.date}
-                  onChange={updateField('date')}
-                  className="w-full px-4 py-2 rounded-md border border-[var(--border)]"
-                  placeholder="15-20 Mars 2026"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm mb-2" style={{ fontFamily: 'var(--font-sans)' }}>
                   Lieu
                 </label>
                 <input
@@ -239,32 +191,30 @@ export function AdminSpectacles() {
                   required
                 />
               </div>
-              <div>
-                <label className="block text-sm mb-2" style={{ fontFamily: 'var(--font-sans)' }}>
-                  Duree
-                </label>
-                <input
-                  type="text"
-                  value={form.duration}
-                  onChange={updateField('duration')}
-                  className="w-full px-4 py-2 rounded-md border border-[var(--border)]"
-                  placeholder="2h30"
-                  required
-                />
-              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm mb-2" style={{ fontFamily: 'var(--font-sans)' }}>
-                  Capacite
+                  Date debut
                 </label>
                 <input
-                  type="text"
-                  value={form.capacity}
-                  onChange={updateField('capacity')}
+                  type="date"
+                  value={form.startDate}
+                  onChange={updateField('startDate')}
                   className="w-full px-4 py-2 rounded-md border border-[var(--border)]"
-                  placeholder="400 places"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm mb-2" style={{ fontFamily: 'var(--font-sans)' }}>
+                  Date fin
+                </label>
+                <input
+                  type="date"
+                  value={form.endDate}
+                  onChange={updateField('endDate')}
+                  className="w-full px-4 py-2 rounded-md border border-[var(--border)]"
                   required
                 />
               </div>
@@ -308,10 +258,7 @@ export function AdminSpectacles() {
                 </button>
               )}
               {message && (
-                <span
-                  className={message.type === 'success' ? 'text-green-700' : 'text-red-600'}
-                  style={{ fontFamily: 'var(--font-sans)' }}
-                >
+                <span className={message.type === 'success' ? 'text-green-700' : 'text-red-600'} style={{ fontFamily: 'var(--font-sans)' }}>
                   {message.text}
                 </span>
               )}
@@ -339,34 +286,18 @@ export function AdminSpectacles() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {shows.map((show) => (
                 <article key={show.id} className="bg-white rounded-lg shadow-md p-5">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <h3 className="text-xl" style={{ fontFamily: 'var(--font-serif)' }}>
-                        {show.title}
-                      </h3>
-                      <p className="text-sm text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
-                        {show.subtitle}
-                      </p>
-                    </div>
-                    <span
-                      className={`px-3 py-1 rounded-full text-xs ${
-                        show.status === 'upcoming'
-                          ? 'bg-[var(--gold)] text-[var(--deep-charcoal)]'
-                          : 'bg-[var(--muted)] text-[var(--charcoal-lighter)]'
-                      }`}
-                      style={{ fontFamily: 'var(--font-sans)', fontWeight: 600 }}
-                    >
-                      {show.status === 'upcoming' ? 'A venir' : 'Passe'}
-                    </span>
-                  </div>
+                  <h3 className="text-xl" style={{ fontFamily: 'var(--font-serif)' }}>
+                    {show.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
+                    {show.location}
+                  </p>
+                  <p className="text-sm text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
+                    {new Date(show.startDate).toLocaleDateString('fr-FR')} - {new Date(show.endDate).toLocaleDateString('fr-FR')}
+                  </p>
                   <p className="mt-3 text-sm text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
                     {show.description}
                   </p>
-                  <div className="mt-4 text-sm text-[var(--charcoal-lighter)]" style={{ fontFamily: 'var(--font-sans)' }}>
-                    <div>{show.date}</div>
-                    <div>{show.location}</div>
-                    <div>{show.duration} - {show.capacity}</div>
-                  </div>
                   <div className="mt-4 flex items-center gap-3">
                     <button
                       type="button"

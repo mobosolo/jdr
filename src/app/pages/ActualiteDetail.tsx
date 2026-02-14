@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import { Calendar, ChevronLeft, Loader2, AlertCircle } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 
-// Interface alignée sur ton schéma Prisma (ID = String)
+// Interface alignÃ©e sur ton schÃ©ma Prisma (ID = String)
 interface NewsItem {
   id: string;
   title: string;
@@ -14,8 +14,7 @@ interface NewsItem {
   }[];
 }
 
-// const apiBase = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
-const apiBase = "http://localhost:4000";
+const apiBase = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
 
 export function ActualiteDetail() {
   const { id } = useParams<{ id: string }>();
@@ -33,30 +32,30 @@ export function ActualiteDetail() {
         return;
       }
 
-      console.log(`🔍 Tentative de récupération de l'article ID: ${id}`);
+      console.log(`ðŸ” Tentative de rÃ©cupÃ©ration de l'article ID: ${id}`);
       setIsLoading(true);
       setError(null);
 
       try {
         const response = await fetch(`${apiBase}/api/news/${id}`);
 
-        console.log(`📡 Statut de la réponse API: ${response.status}`);
+        console.log(`ðŸ“¡ Statut de la rÃ©ponse API: ${response.status}`);
 
         if (!response.ok) {
           if (response.status === 404) {
-            throw new Error("Cet article n'existe pas en base de données.");
+            throw new Error("Cet article n'existe pas en base de donnÃ©es.");
           }
           throw new Error(`Erreur serveur (${response.status})`);
         }
 
         const data = await response.json();
-        console.log("✅ Données reçues:", data);
+        console.log("âœ… DonnÃ©es reÃ§ues:", data);
 
         if (isMounted) {
           setNews(data);
         }
       } catch (err) {
-        console.error("❌ Erreur lors du fetch:", err);
+        console.error("âŒ Erreur lors du fetch:", err);
         if (isMounted) {
           setError(err instanceof Error ? err.message : "Erreur inconnue");
         }
@@ -73,17 +72,17 @@ export function ActualiteDetail() {
     };
   }, [id]);
 
-  // --- Écran de chargement ---
+  // --- Ã‰cran de chargement ---
   if (isLoading) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-[var(--off-white)]">
         <Loader2 className="w-10 h-10 animate-spin text-[var(--blue-primary)] mb-4" />
-        <p className="font-sans text-gray-500">Chargement de l'actualité...</p>
+        <p className="font-sans text-gray-500">Chargement de l'actualitÃ©...</p>
       </div>
     );
   }
 
-  // --- Écran d'erreur ---
+  // --- Ã‰cran d'erreur ---
   if (error || !news) {
     return (
       <div className="min-h-screen pt-32 flex flex-col items-center bg-[var(--off-white)] px-4">
@@ -93,20 +92,20 @@ export function ActualiteDetail() {
             Oups ! Article introuvable
           </h2>
           <p className="text-gray-600 mb-6 font-sans">
-            {error || "Nous ne trouvons pas l'article demandé."}
+            {error || "Nous ne trouvons pas l'article demandÃ©."}
           </p>
           <Link
             to="/actualites"
             className="inline-block px-6 py-2 bg-[var(--blue-primary)] text-white rounded-lg font-bold hover:bg-[var(--blue-dark)] transition-colors"
           >
-            Retourner aux actualités
+            Retourner aux actualitÃ©s
           </Link>
         </div>
       </div>
     );
   }
 
-  // Sécurité Image
+  // SÃ©curitÃ© Image
   const mainImage =
     news.images && news.images.length > 0 ? news.images[0] : null;
 
@@ -119,7 +118,7 @@ export function ActualiteDetail() {
           className="inline-flex items-center text-[var(--blue-primary)] hover:translate-x-[-4px] transition-transform font-bold font-sans"
         >
           <ChevronLeft className="w-5 h-5 mr-1" />
-          Toutes les actualités
+          Toutes les actualitÃ©s
         </Link>
       </nav>
 
@@ -178,3 +177,4 @@ export function ActualiteDetail() {
     </div>
   );
 }
+

@@ -1,6 +1,6 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { adminFetch } from '../lib/adminFetch';
+import { setAdminToken } from '../lib/adminFetch';
 
 const apiBase = import.meta.env.VITE_API_URL ?? 'http://localhost:4000';
 
@@ -18,17 +18,19 @@ export function AdminLogin() {
     setError(null);
 
     try {
-      const response = await adminFetch(`${apiBase}/api/admin/login`, {
+      const response = await fetch(`${apiBase}/api/admin/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, password }),
       });
 
-      if (!response.ok) {
-        const text = await response.text();
-        throw new Error(text || `Erreur API: ${response.status}`);
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok || !data?.token) {
+        throw new Error(data?.error || `Erreur API: ${response.status}`);
       }
 
+      setAdminToken(data.token);
       const target = (location.state && location.state.from) ? location.state.from : '/admin/spectacles';
       navigate(target, { replace: true });
     } catch (err) {
@@ -42,10 +44,7 @@ export function AdminLogin() {
     <div className="min-h-screen pt-20 bg-[var(--off-white)]">
       <div className="max-w-md mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-white rounded-lg shadow-lg p-8">
-          <h1
-            className="text-3xl mb-3"
-            style={{ fontFamily: 'var(--font-serif)', color: 'var(--deep-charcoal)' }}
-          >
+          <h1 className="text-3xl mb-3" style={{ fontFamily: 'var(--font-serif)', color: 'var(--deep-charcoal)' }}>
             Connexion Admin
           </h1>
           <p className="text-sm text-[var(--charcoal-lighter)] mb-6" style={{ fontFamily: 'var(--font-sans)' }}>

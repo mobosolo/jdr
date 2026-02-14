@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import { ChevronRight, Calendar, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
 
-// Types alignés sur Prisma
+// Types alignÃ©s sur Prisma
 interface NewsItem {
   id: string;
   title: string;
@@ -12,14 +12,13 @@ interface NewsItem {
   images: { url: string; alt: string | null }[];
 }
 
-// const apiBase = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
-const apiBase = "http://localhost:4000";
+const apiBase = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
 
 export function Home() {
   const [news, setNews] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Configuration du Slider (identique à ton souhait)
+  // Configuration du Slider (identique Ã  ton souhait)
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -34,8 +33,8 @@ export function Home() {
     {
       image:
         "https://images.unsplash.com/photo-1767294274254-57367fa62236?q=80&w=1080",
-      title: "L'Art de la Scène",
-      subtitle: "Découvrez nos spectacles exceptionnels",
+      title: "L'Art de la ScÃ¨ne",
+      subtitle: "DÃ©couvrez nos spectacles exceptionnels",
     },
   ];
 
@@ -83,12 +82,12 @@ export function Home() {
         </Slider>
       </section>
 
-      {/* --- SECTION ACTUALITÉS --- */}
+      {/* --- SECTION ACTUALITÃ‰S --- */}
       <section className="py-20 max-w-7xl mx-auto px-4">
         <div className="flex justify-between items-end mb-12">
           <div>
             <h2 className="text-4xl font-serif text-[var(--deep-charcoal)]">
-              Actualités
+              ActualitÃ©s
             </h2>
             <div className="w-20 h-1 bg-[var(--blue-primary)] mt-2" />
           </div>
@@ -96,7 +95,7 @@ export function Home() {
             to="/actualites"
             className="text-[var(--blue-primary)] font-bold flex items-center hover:underline"
           >
-            Toute l'actualité <ChevronRight className="w-4 h-4" />
+            Toute l'actualitÃ© <ChevronRight className="w-4 h-4" />
           </Link>
         </div>
 
@@ -158,8 +157,8 @@ export function Home() {
           Une question sur nos tarifs ?
         </h2>
         <p className="mb-8 opacity-80">
-          Notre équipe est à votre disposition pour toute demande de
-          réservation.
+          Notre Ã©quipe est Ã  votre disposition pour toute demande de
+          rÃ©servation.
         </p>
         <Link
           to="/contact"
@@ -171,3 +170,4 @@ export function Home() {
     </div>
   );
 }
+

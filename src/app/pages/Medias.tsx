@@ -1,16 +1,15 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useState } from "react";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { X } from "lucide-react";
 
-// Interface adaptée à Prisma
+// Interface adaptÃ©e Ã  Prisma
 interface MediaPhoto {
   id: string;
   url: string;
   title: string | null;
 }
 
-// const apiBase = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
-const apiBase = "http://localhost:4000";
+const apiBase = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
 
 export function Medias() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -56,7 +55,7 @@ export function Medias() {
       {/* Header Section */}
       <section className="py-20 bg-gradient-to-b from-[var(--deep-charcoal)] to-[var(--charcoal-light)] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-5xl md:text-6xl mb-6 font-serif">Médias</h1>
+          <h1 className="text-5xl md:text-6xl mb-6 font-serif">MÃ©dias</h1>
           <p className="text-xl text-[var(--off-white)] max-w-3xl mx-auto leading-relaxed font-sans opacity-90">
             Plongez dans l'univers visuel et artistique de la Compagnie
             Culturelle JDR.
@@ -117,7 +116,7 @@ export function Medias() {
         </div>
       </section>
 
-      {/* Lightbox (Plein écran) */}
+      {/* Lightbox (Plein Ã©cran) */}
       {selectedImage && (
         <div
           className="fixed inset-0 bg-black/95 z-[100] flex items-center justify-center p-4 backdrop-blur-sm transition-all duration-300"
@@ -133,7 +132,7 @@ export function Medias() {
 
           <img
             src={selectedImage}
-            alt="Plein écran"
+            alt="Plein Ã©cran"
             className="max-w-full max-h-[90vh] object-contain rounded-sm shadow-2xl animate-in zoom-in-95 duration-300"
             onClick={(e) => e.stopPropagation()}
           />
@@ -142,3 +141,4 @@ export function Medias() {
     </div>
   );
 }
+
